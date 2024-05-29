@@ -3,7 +3,7 @@ import './App.css';
 import { AuthContextProvider } from './components/context/AuthContext';
 import Home from './components/pages/Home';
 import Log from './components/pages/Log';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router,Route, Routes } from 'react-router-dom';
 import Protected from './components/pages/Protected';
 
 
