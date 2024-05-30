@@ -2,60 +2,53 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import SearchBox from './SearchBox';
 import MoviesList from './MoviesList';
-import UsersMoviesLists from './UsersMoviesLists';
 
-export default function Home() {
+export default function Home({ userLists, addMovieToList }) {
   const [movies, setMovies] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [filter, setFilter] = useState('all');
-  const [userLists, setUserLists] = useState([]);
-
-  // Function to add a new list
-  const addList = (listName) => {
-    if (listName && !userLists.some(list => list.name === listName)) {
-      setUserLists([...userLists, { name: listName, movies: [] }]);
-    }
-  };
-
-  // Function to add a movie to a list
-  const addMovieToList = (listName, movie) => {
-    setUserLists(userLists.map(list => {
-      if (list.name === listName) {
-        return { ...list, movies: [...list.movies, movie] };
-      }
-      return list;
-    }));
-  };
-
-
-  const removeMovieFromList = (listName, movieId) => {
-    setUserLists(userLists.map(list => {
-      if (list.name === listName) {
-        return { ...list, movies: list.movies.filter(movie => movie.imdbID !== movieId) };
-      }
-      return list;
-    }));
-  };
-
+  
   const getMovieRequest = async (searchValue, filter) => {
     let url = `http://www.omdbapi.com/?s=${searchValue}&apikey=a0311d04`;
-    if (filter !== 'all') {
-      url += `&type=${filter}`;
-    }
 
-    const response = await fetch(url);
-    const responseJson = await response.json();
+    if (filter === 'all') {
+      const moviesResponse = await fetch(url + '&type=movie');
+      const moviesJson = await moviesResponse.json();
 
-    if (responseJson.Search) {
-      setMovies(responseJson.Search);
+      const seriesResponse = await fetch(url + '&type=series');
+      const seriesJson = await seriesResponse.json();
+
+      const allResults = [
+        ...(moviesJson.Search || []),
+        ...(seriesJson.Search || []),
+      ];
+
+      setMovies(allResults);
     } else {
-      setMovies([]);
+      if (filter !== 'all') {
+        url += `&type=${filter}`;
+      }
+
+      const response = await fetch(url);
+      const responseJson = await response.json();
+
+      if (responseJson.Search) {
+        setMovies(responseJson.Search);
+      } else {
+        setMovies([]);
+      }
     }
   };
 
   useEffect(() => {
     getMovieRequest(searchValue || 'Batman', filter); // Replace 'Batman' with a default term or logic to fetch all movies and series
   }, [searchValue, filter]);
+
+  useEffect(() => {
+    if (!searchValue) {
+      getMovieRequest('Batman', 'all'); // Initial fetch for all movies and series
+    }
+  }, []);
 
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
@@ -76,10 +69,11 @@ export default function Home() {
       <div className='row'>
         <MoviesList movies={movies} addMovieToList={addMovieToList} userLists={userLists} />
       </div>
-      <UsersMoviesLists userLists={userLists}
+      {/* <UsersMoviesLists
+        userLists={userLists}
         removeMovieFromList={removeMovieFromList}
-        addList={addList} />
+        addList={addList}
+      /> */}
     </div>
-
   );
 }

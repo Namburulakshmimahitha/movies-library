@@ -1,44 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Modal from './Modal';
 
-export default function MoviesList({ movies, addMovieToList, userLists, isUserList, listName, removeMovieFromList }) {
-  const handleAddMovieToList = (movie, listName) => {
-    addMovieToList(listName, movie);
-  };
+export default function MoviesList({ movies, addMovieToList, userLists, isUserList, listName, removeMovieFromList, isFavoritesPage }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
-  const handleRemoveMovieFromList = (movieId) => {
-    removeMovieFromList(listName, movieId);
+  const handleAddButtonClick = (movie) => {
+    setSelectedMovie(movie);
+    setIsModalOpen(true);
   };
 
   return (
     <>
       {movies.map((movie, index) => (
-        <div key={index} className='image-container d-flex justify-content-start m-3'>
-          <img src={movie.Poster} alt={movie.Title}></img>
-          <div>
-            {isUserList ? (
-              <button 
-                onClick={() => handleRemoveMovieFromList(movie.imdbID)} 
-                className='btn btn-danger mt-2'
-              >
-                Remove
-              </button>
-            ) : (
-              userLists && userLists.length > 0 && (
-                <select
-                  onChange={(e) => handleAddMovieToList(movie, e.target.value)}
-                  defaultValue=""
-                  className='form-select mt-2'
+        <div key={index} className='col-md-4 mb-3'>
+          <div className='card'>
+            <img src={movie.Poster} alt={movie.Title} className='card-img-top' />
+            <div className='card-body'>
+              {!isFavoritesPage && ( // Conditionally render the "+" icon
+                <button
+                  className='btn btn-success add-button'
+                  onClick={() => handleAddButtonClick(movie)}
                 >
-                  <option value="" disabled>Add to list</option>
-                  {userLists.map((list, idx) => (
-                    <option key={idx} value={list.name}>{list.name}</option>
-                  ))}
-                </select>
-              )
-            )}
+                  +
+                </button>
+              )}
+              {isUserList && (
+                <button
+                  onClick={() => removeMovieFromList(listName, movie.imdbID)}
+                  className='btn btn-danger mt-2'
+                >
+                  Remove
+                </button>
+              )}
+            </div>
           </div>
         </div>
       ))}
+
+      {selectedMovie && (
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          userLists={userLists}
+          addMovieToList={addMovieToList}
+          movie={selectedMovie}
+        />
+      )}
     </>
   );
 }

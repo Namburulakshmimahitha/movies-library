@@ -36,3 +36,36 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* Updated CSS */
+.add-button {
+  background-color: #28a745; /* Bootstrap's success color */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  line-height: 32px;
+  text-align: center;
+  margin-left: auto; /* Aligns the button to the right */
+  display: block;
+}
+
+.btn-danger {
+  display: block;
+  width: 100%;
+}
+
+/* Utilize Bootstrap's spacing utilities in your JSX for consistent spacing */
+
+
+
+
+
+
+
+
+
+
