@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MoviesList from './MoviesList';
+import AddListModal from './AddListModal';
 
 export default function UsersMoviesLists({ userLists, removeMovieFromList, addList, addMovieToList, deleteList, isFavoritesPage }) {
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <>
       <div className='row'>
-        {/* Render user's movie lists that have at least one movie */}
         {userLists.filter(list => list.movies.length > 0).map((list, index) => (
           <div key={index} className="col-12 mb-3">
             <div className="d-flex justify-content-between align-items-center">
@@ -29,23 +39,19 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
         ))}
       </div>
       <div>
-        <input
-          type="text"
-          placeholder="New List Name"
-          id="new-list-name"
-          className="form-control mt-4"
-        />
         <button
-          onClick={() => {
-            const listName = document.getElementById('new-list-name').value;
-            addList(listName);
-            document.getElementById('new-list-name').value = '';
-          }}
+          onClick={openModal}
           className='btn btn-primary mt-2'
         >
-          Add List
+          +
         </button>
       </div>
+
+      <AddListModal
+        isOpen={showModal}
+        onClose={closeModal}
+        addList={addList}
+      />
     </>
   );
 }

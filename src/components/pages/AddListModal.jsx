@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 
-export default function AddListModal({ isOpen, onClose, userLists, addMovieToList, movie }) {
-    const [selectedListName, setSelectedListName] = useState('');
+export default function AddListModal({ isOpen, onClose, addList }) {
   const [newListName, setNewListName] = useState('');
 
-  const handleDropdownChange = (e) => {
-    setSelectedListName(e.target.value);
-  };
-
   const handleSave = () => {
-    if (selectedListName) {
-      addMovieToList(selectedListName, movie);
-    } else if (newListName) {
-      addMovieToList(newListName, movie);
+    if (newListName) {
+      addList(newListName);
       setNewListName('');
     }
     onClose();
@@ -25,36 +18,19 @@ export default function AddListModal({ isOpen, onClose, userLists, addMovieToLis
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Add "{movie.Title}" to a list</h5>
+            <h5 className="modal-title">Create a new list</h5>
             <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={onClose}>
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div className="modal-body">
-            {userLists && userLists.length > 0 ? (
-              <div>
-                <select
-                  onChange={handleDropdownChange}
-                  defaultValue=""
-                  className='form-select mt-2'
-                >
-                  <option value="" disabled>Select a list</option>
-                  {userLists.map((list, idx) => (
-                    <option key={idx} value={list.name}>{list.name}</option>
-                  ))}
-                </select>
-              </div>
-            ) : (
-              <div>
-                <input
-                  type="text"
-                  placeholder="New List Name"
-                  value={newListName}
-                  onChange={(e) => setNewListName(e.target.value)}
-                  className="form-control mt-4"
-                />
-              </div>
-            )}
+            <input
+              type="text"
+              placeholder="New List Name"
+              value={newListName}
+              onChange={(e) => setNewListName(e.target.value)}
+              className="form-control mt-4"
+            />
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-primary" onClick={handleSave}>Save</button>
