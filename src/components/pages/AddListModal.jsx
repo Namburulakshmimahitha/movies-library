@@ -2,11 +2,22 @@ import React, { useState } from 'react';
 
 export default function AddListModal({ isOpen, onClose, addList }) {
   const [newListName, setNewListName] = useState('');
+  const [isPublic, setIsPublic] = useState(true); // Default to public
 
   const handleSave = () => {
     if (newListName) {
-      addList(newListName);
+      addList(newListName, isPublic);
       setNewListName('');
+      setIsPublic(true);
+      console.log(isPublic);
+        // Inside your addList function 
+      console.log('Adding new list:', newListName, 'Is Public:', isPublic);
+
+      // Inside your addList function
+console.log('Adding new list:', newListName, 'Is Public:', isPublic);
+// This will confirm that the function is being called with the correct values
+
+
     }
     onClose();
   };
@@ -20,7 +31,7 @@ export default function AddListModal({ isOpen, onClose, addList }) {
           <div className="modal-header">
             <h5 className="modal-title">Create a new list</h5>
             <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={onClose}>
-              <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true">×</span>
             </button>
           </div>
           <div className="modal-body">
@@ -31,6 +42,34 @@ export default function AddListModal({ isOpen, onClose, addList }) {
               onChange={(e) => setNewListName(e.target.value)}
               className="form-control mt-4"
             />
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="listPrivacyOption"
+                id="publicList"
+                value="public"
+                checked={isPublic}
+                onChange={() => setIsPublic(true)}
+              />
+              <label className="form-check-label" htmlFor="publicList">
+                Public
+              </label>
+            </div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="listPrivacyOption"
+                id="privateList"
+                value="private"
+                checked={!isPublic}
+                onChange={() => setIsPublic(false)}
+              />
+              <label className="form-check-label" htmlFor="privateList">
+                Private
+              </label>
+            </div>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-primary" onClick={handleSave}>Save</button>

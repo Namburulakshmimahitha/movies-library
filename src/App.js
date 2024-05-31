@@ -17,13 +17,14 @@ function App() {
     localStorage.setItem('userLists', JSON.stringify(lists));
   };
 
-  const addList = (listName) => {
+  const addList = (listName, isPublic) => {
     if (listName && !userLists.some(list => list.name === listName)) {
-      const updatedLists = [...userLists, { name: listName, movies: [] }];
+      const updatedLists = [...userLists, { name: listName, movies: [], isPublic: isPublic }];
       setUserLists(updatedLists);
       saveUserListsToLocalStorage(updatedLists);
     }
   };
+
 
   const addMovieToList = (listName, movie) => {
     const updatedLists = userLists.map(list => {
