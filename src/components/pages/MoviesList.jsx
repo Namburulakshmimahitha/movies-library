@@ -8,16 +8,6 @@ export default function MoviesList({ movies, addMovieToList, userLists, isUserLi
   const handleAddButtonClick = (movie) => {
     setSelectedMovie(movie);
     setIsModalOpen(true);
-    // Inside your UsersMoviesLists component, right before the return statement
-console.log('Current user lists:', userLists);
-// This will show you the current state of user lists
-
-// On your favorites page, where you render the lists
-console.log('Favorites page lists:', userLists);
-// This will confirm that the lists are being passed to the favorites page
-
-// This will confirm that the function is being called with the correct values
-       // Reset to default public state
   };
 
   return (
