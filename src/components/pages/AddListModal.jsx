@@ -17,7 +17,7 @@ export default function AddListModal({ isOpen, onClose, addList }) {
 console.log('Adding new list:', newListName, 'Is Public:', isPublic);
 // This will confirm that the function is being called with the correct values
 
-
+      
     }
     onClose();
   };

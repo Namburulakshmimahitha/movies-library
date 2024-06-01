@@ -5,6 +5,8 @@ import AddListModal from './AddListModal';
 export default function UsersMoviesLists({ userLists, removeMovieFromList, addList, addMovieToList, deleteList, isFavoritesPage }) {
   const [showModal, setShowModal] = useState(false);
   const [visibilityFilter, setVisibilityFilter] = useState('public'); // 'public' or 'private'
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [listIdToDelete, setListIdToDelete] = useState(null);
 
   const openModal = () => {
     setShowModal(true);
@@ -20,6 +22,21 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
     const filteredLists = userLists.filter(list => list.isPublic === (filter === 'public'));
     console.log(`${filter} lists:`, filteredLists);
   };
+
+  const handleDeleteButtonClick = (listId) => {
+    setListIdToDelete(listId);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteList = async () => {
+    try {
+      await deleteList(listIdToDelete);
+      setIsDeleteModalOpen(false);
+    } catch (error) {
+      console.error('Error deleting list:', error);
+    }
+  };
+
   
 
   return (
@@ -40,7 +57,7 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
               <div className="d-flex justify-content-between align-items-center">
                 <h3>{list.name}</h3>
                 <button 
-                  onClick={() => deleteList(list.name)} 
+                  onClick={() => handleDeleteButtonClick(list.id)} 
                   className='btn btn-danger'
                 >
                   Delete
@@ -53,6 +70,7 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
                 removeMovieFromList={removeMovieFromList} 
                 addMovieToList={addMovieToList}
                 isFavoritesPage={isFavoritesPage}
+                userLists={userLists}
               />
             </div>
           ))}
@@ -71,6 +89,29 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
         onClose={closeModal}
         addList={addList}
       />
+
+{isDeleteModalOpen && listIdToDelete && (
+        <div className="modal show" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Delete "{listIdToDelete}" list?</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => setIsDeleteModalOpen(false)}>
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-danger" onClick={handleDeleteList}>
+                  Remove
+                </button>
+                <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => setIsDeleteModalOpen(false)}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
