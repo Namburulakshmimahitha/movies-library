@@ -22,6 +22,7 @@ const Log = () => {
   }, [user, navigate]);
 
   return (
+    <div className="backimg">
     <div id="loginPage" className='container'>
       <h1 className='logintext'>Explore the Movie library...</h1>
       <div className='button-container'>
@@ -30,6 +31,7 @@ const Log = () => {
           <span>Sign in with Google</span>
         </button>
       </div>
+    </div>
     </div>
   );
 };

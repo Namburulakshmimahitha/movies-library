@@ -12,6 +12,7 @@ import PublicListDetails from './components/pages/PublicListDetails';
 
 function App() {
   const [userLists, setuserLists] = useState([]);
+  const [publicLists, setPublicLists] = useState([]);
 
   useEffect(() => {
     const fetchuserLists = async () => {
@@ -25,6 +26,7 @@ function App() {
             lists.push({ id: doc.id, ...doc.data() });
           });
           setuserLists(lists);
+          setPublicLists(lists);
           console.log(user.email);
         } catch (error) {
           console.error('Error fetching user lists:', error);
@@ -163,11 +165,11 @@ function App() {
         <Route path="/" element={<Log />} />
         <Route path="/main" element={
           <Protected>
-            <Home userLists={userLists} addMovieToList={addMovieToList} removeMovieFromList={removeMovieFromList} deleteList={deleteList} />
+            <Home userLists={userLists} addMovieToList={addMovieToList} removeMovieFromList={removeMovieFromList} deleteList={deleteList} publicLists={publicLists} />
           </Protected>} />
         <Route path="/favorites" element={
           <Protected>
-            <Favourites userLists={userLists} addList={addList} removeMovieFromList={removeMovieFromList} deleteList={deleteList} />
+            <Favourites userLists={userLists} addList={addList} removeMovieFromList={removeMovieFromList} deleteList={deleteList}  />
           </Protected>
         } />
         <Route path="/list/:listId" element={

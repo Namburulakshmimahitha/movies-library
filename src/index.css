@@ -1,13 +1,465 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+:root {
+  --aha: rgb(245, 98, 41);
+  --slblack: rgb(33, 33, 33);
+  --trans: rgba(0, 0, 0, 0.5);
+  --hunter-green: #3a5a40ff;
+  --brunswick-green: #344e41ff;
+  --search: #fff;
 }
+.hoemcont{
+  justify-content: center;
+  align-items: center;
+  background-color: var(--trans);
+}
+
+/* Sign in page CSS */
+.backimg {
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url(./Assests//background1.jpeg);
+  background-size: cover;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.custom-google-button {
+  background-color: var(--fern-green);
+  color: var(--aha);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 90%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.custom-google-button img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.custom-google-button span {
+  text-transform: capitalize;
+  font-weight: 900;
+  padding: 5px;
+}
+
+.logintext {
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: .15em solid var(--slblack);
+  width: 30ch;
+  animation: typing 5s steps(30, end) infinite, blink-caret .75s step-end infinite;
+  text-align: right;
+}
+
+@keyframes typing {
+  from {
+    width: 0ch
+  }
+  to {
+    width: 30ch
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent
+  }
+  50% {
+    border-color: var(--fern-green)
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .logintext {
+    font-size: 1.5rem;
+    margin-left: 140px;
+  }
+}
+
+/* Home page CSS */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bgcolorisgf{
+  background-color: var(--trans);
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+
+
+.search-box-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.form-control {
+  width: 100%;
+  max-width: 590px;
+}
+
+.toolbarcirclebtn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #000;
+}
+
+.profcon {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  width: 200px; /* Adjust this width as necessary */
+}
+
+/* .toolbardropdown {
+  position: relative;
+} */
+
+.dropdown-menu {
+  position: absolute;
+  right: 80px;
+  left: -20px;
+  top: 60px;
+  width: 250px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.userdropdown .dropdown-item {
+  padding: 10px;
+}
+
+.topcontainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px;
+}
+
+.favoutite {
+  margin-left: auto;
+  margin-right: 10px;
+  font-size: 24px;
+}
+
+.favoutite:hover i {
+  transform: scale(1.2);
+  transition: transform 0.3s ease;
+  color: var(--aha);
+}
+
+.favoutite:hover::after {
+  content: attr(data-title);
+  transform: translateX(-50%);
+}
+
+.nav-barh {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: var(--trans); */
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex: 1;
+}
+
+.button-group .btn {
+  padding: 10px 20px;
+  border: none;
+  background-color: var(--aha);
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button-group .btn:hover {
+  background-color: var(--slblack);
+  transform: translateY(-2px);
+}
+
+.button-group .btn.active {
+  background-color: #004085;
+  transform: translateY(-2px);
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: black;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #e2e6ea;
+  color: #007bff;
+}
+
+.nav-link.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.nav-link .fa-heart {
+  font-size: 24px;
+  margin-left: 5px;
+}
+
+/* Responsive adjustments */
+@media only screen and (max-width: 1200px) {
+  .navbar-brand {
+    font-size: 1.25rem;
+  }
+
+  .form-control {
+    max-width: 500px;
+  }
+
+  .profcon {
+    width: 150px;
+  }
+
+  .dropdown-menu {
+    width: 200px;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .navbar-brand {
+    font-size: 1rem;
+  }
+
+  .form-control {
+    max-width: 400px;
+  }
+
+  .profcon {
+    width: 100px;
+  }
+
+  .dropdown-menu {
+    width: 180px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-box-container {
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .form-control {
+    max-width: 100%;
+  }
+
+  .profcon {
+    width: auto;
+  }
+
+  .dropdown-menu {
+    width: 150px;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
+
+  .navbar-brand {
+    font-size: 0.875rem;
+  }
+
+  .form-control {
+    max-width: 100%;
+  }
+
+  .profcon {
+    width: auto;
+  }
+
+  .dropdown-menu {
+    width: 130px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .dropdown-menu {
+    right: auto;
+    left: 0;
+  }
+}
+
+
+.col-md-4 {
+  flex: 0 0 25%; /* Set width to 25% for four cards per row */
+  max-width: 25%;
+}
+
+.card {
+  margin-bottom: 15px;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+}
+
+.card-img-top {
+  width: 100%;
+  height: auto;
+}
+
+.card-body {
+  padding: 0;
+  
+}
+
+.add-button,
+.remove-button {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .col-md-4 {
+    flex: 0 0 50%; /* Set width to 50% for two cards per row on medium devices */
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 576px) {
+  .col-md-4 {
+    flex: 0 0 100%; /* Set width to 100% for single card per row on small devices */
+    max-width: 100%;
+  }
+}
+.card {
+  position: relative;
+}
+
+.add-button {
+  background-color: var(--aha);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border: none;
+  border-radius: 50%;
+  width: 48px; /* Increased width */
+  height: 48px; /* Increased height */
+  font-size: 28px; /* Increased font size */
+  line-height: 48px; /* Adjusted line height to match button size */
+  text-align: center;
+  display: block;
+}
+
+
+.card:hover .add-button {
+  opacity: 1;
+}
+
+.card:hover img {
+  filter: blur(2px); /* Add blur effect to the image when hovering over the card */
+}
+
+/* Glassmorphism effect for the modal */
+.glass-effect {
+  background: rgba(49, 43, 43, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.modal-header, .modal-footer {
+  border: none;
+}
+
+.modal-title {
+  color: white;
+}
+
+.close {
+  color: #fff;
+  opacity: 0.8;
+}
+
+.close:hover {
+  opacity: 1;
+}
+
+/* Styling for the dropdown */
+.styled-select {
+  background: var(--trans);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 8px 10px;
+}
+
+.styled-select:focus {
+  border-color: white;
+  outline: none;
+}
+
+.modal-footer button {
+  background-color: var(--aha);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.modal-footer button:hover {
+  background-color: var(--aha-hover); /* Assuming you have a hover color defined */
+  transform: scale(1.05);
+  color: white;
+}
+
+

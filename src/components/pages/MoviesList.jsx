@@ -1,20 +1,20 @@
 import { list } from 'firebase/storage';
 import React, { useState, useEffect } from 'react';
 
-export default function MoviesList({ movies, addMovieToList, userLists, isUserList, removeMovieFromList, isFavoritesPage, deleteList }) {
+export default function MoviesList({ movies, addMovieToList, userLists, isUserList, removeMovieFromList, isFavoritesPage, publicLists }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedListId, setSelectedListId] = useState('');
   const [movieToRemove, setMovieToRemove] = useState(null);
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
- 
+
 
   const handleAddButtonClick = (movie) => {
     setSelectedMovie(movie);
     setIsModalOpen(true);
   };
 
- 
+
 
   const handleDropdownChange = (e) => {
     setSelectedListId(e.target.value);
@@ -29,8 +29,8 @@ export default function MoviesList({ movies, addMovieToList, userLists, isUserLi
 
   const [listIdToRemoveFrom, setListIdToRemoveFrom] = useState(null);
 
-  const handleRemoveButtonClick=(movie) => {
-    
+  const handleRemoveButtonClick = (movie) => {
+
     // Find the list ID of the movie from the userLists
     const list = userLists.find(list => list.movies.some(m => m.imdbID === movie.imdbID));
     console.log(list)
@@ -52,7 +52,7 @@ export default function MoviesList({ movies, addMovieToList, userLists, isUserLi
     }
   };
 
-  
+
 
   return (
     <>
@@ -63,10 +63,10 @@ export default function MoviesList({ movies, addMovieToList, userLists, isUserLi
             <div className='card-body'>
               {!isFavoritesPage && (
                 <button
-                  className='btn btn-success add-button'
+                  className='add-button'
                   onClick={() => handleAddButtonClick(movie)}
                 >
-                  +
+                  <i class="fa-regular fa-heart"></i>
                 </button>
               )}
               {isUserList && (
@@ -85,7 +85,7 @@ export default function MoviesList({ movies, addMovieToList, userLists, isUserLi
       {isModalOpen && selectedMovie && (
         <div className="modal show" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
           <div className="modal-dialog" role="document">
-            <div className="modal-content">
+            <div className="modal-content glass-effect">
               <div className="modal-header">
                 <h5 className="modal-title">Add "{selectedMovie.Title}" to a list</h5>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => setIsModalOpen(false)}>
@@ -98,7 +98,7 @@ export default function MoviesList({ movies, addMovieToList, userLists, isUserLi
                     <select
                       onChange={handleDropdownChange}
                       defaultValue=""
-                      className='form-select mt-2'
+                      className='form-select mt-2 styled-select'
                     >
                       <option value="" disabled>Select a list</option>
                       {userLists.map((list, idx) => (
@@ -114,11 +114,11 @@ export default function MoviesList({ movies, addMovieToList, userLists, isUserLi
               </div>
               <div className="modal-footer">
                 {selectedListId && (
-                  <button type="button" className="btn btn-primary" onClick={handleSave}>
+                  <button type="button" className="btn " onClick={handleSave}>
                     Save
                   </button>
                 )}
-                <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => setIsModalOpen(false)}>
+                <button type="button" className="btn " data-dismiss="modal" onClick={() => setIsModalOpen(false)}>
                   Close
                 </button>
               </div>

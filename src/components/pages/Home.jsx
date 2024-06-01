@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from './../context/AuthContext';
 import Navbar from './Navbar';
 import SearchBox from './SearchBox';
 import MoviesList from './MoviesList';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { auth } from './../../firebase';
 
-export default function Home({ userLists , addMovieToList, removeMovieFromList}) {
+
+
+
+export default function Home({ userLists, addMovieToList, removeMovieFromList, publicLists }) {
+  const { logOut, user } = useAuth();
+  const navigate = useNavigate();
+  const usertok = auth.currentUser;
   const [movies, setMovies] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [filter, setFilter] = useState('all');
@@ -11,7 +21,7 @@ export default function Home({ userLists , addMovieToList, removeMovieFromList})
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedListId, setSelectedListId] = useState('');
 
-  
+
 
   const handleDropdownChange = (e) => {
     setSelectedListId(e.target.value);
@@ -25,7 +35,7 @@ export default function Home({ userLists , addMovieToList, removeMovieFromList})
   };
 
   const getMovieRequest = async (searchValue, filter) => {
-    let url = `http://www.omdbapi.com/?s=${searchValue}&apikey=a0311d04`;
+    let url = `http://www.omdbapi.com/?s=${searchValue}&apikey=6a7eb2c1`;
 
     if (filter !== 'all') {
       url += `&type=${filter}`;
@@ -67,24 +77,24 @@ export default function Home({ userLists , addMovieToList, removeMovieFromList})
     console.log(selectedMovie)
   };
 
+
   return (
-    <div>
-      {
-        userLists.map((list, idx) => (
-          <option key={idx} value={list.id}>{list.name}</option>
-        ))
-      }
-      <Navbar />
-      <div className='row d-flex align-items-center mt-4 mb-4'>
-        <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
-        <div>
-          <button onClick={() => handleFilterChange('all')} className='btn btn-primary'>All</button>
-          <button onClick={() => handleFilterChange('movie')} className='btn btn-primary'>Movies</button>
-          <button onClick={() => handleFilterChange('series')} className='btn btn-primary'>Series</button>
+    <div className='hoemcont'>
+      <Navbar searchValue={searchValue} setSearchValue={setSearchValue} />
+      <div className="nav-barh">
+        <div className='button-group'>
+          <button onClick={() => handleFilterChange('all')} className='btn'>All</button>
+          <button onClick={() => handleFilterChange('movie')} className='btn'>Movies</button>
+          <button onClick={() => handleFilterChange('series')} className='btn'>Series</button>
         </div>
+        <Link className="favoutite nav-link" to="/favorites">
+          <i className="fa-solid fa-heart" data-title="Add to Favorites"></i>
+        </Link>
       </div>
+
+
       <div className='row'>
-        <MoviesList movies={movies} onAddToListClick={handleAddToListClick} userLists={userLists} addMovieToList={addMovieToList} removeMovieFromList={removeMovieFromList}   />
+        <MoviesList movies={movies} onAddToListClick={handleAddToListClick} userLists={userLists} addMovieToList={addMovieToList} removeMovieFromList={removeMovieFromList} publicLists={publicLists} />
       </div>
       {isModalOpen && selectedMovie && (
         <div className="modal show" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
@@ -130,6 +140,7 @@ export default function Home({ userLists , addMovieToList, removeMovieFromList})
           </div>
         </div>
       )}
+
     </div>
   );
 }
