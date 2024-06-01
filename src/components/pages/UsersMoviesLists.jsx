@@ -37,7 +37,17 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
     }
   };
 
-  
+  const getShareableLink = (listId) => {
+    return `${window.location.origin}/list/${listId}`;
+  };
+
+  const copyToClipboard = (link) => {
+    navigator.clipboard.writeText(link)
+      .then(() => alert('Link copied to clipboard!'))
+      .catch(err => console.error('Could not copy text: ', err));
+  };
+
+
 
   return (
     <>
@@ -56,18 +66,26 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
             <div key={index} className="col-12 mb-3">
               <div className="d-flex justify-content-between align-items-center">
                 <h3>{list.name}</h3>
-                <button 
-                  onClick={() => handleDeleteButtonClick(list.id)} 
+                <button
+                  onClick={() => handleDeleteButtonClick(list.id)}
                   className='btn btn-danger'
                 >
                   Delete
                 </button>
+                {list.isPublic && ( // Only display the Copy Link button for public lists
+                  <button
+                    onClick={() => copyToClipboard(getShareableLink(list.id))}
+                    className='btn btn-info ml-2'
+                  >
+                    Copy Link
+                  </button>
+                )}
               </div>
-              <MoviesList 
-                movies={list.movies} 
-                isUserList={true} 
-                listName={list.name} 
-                removeMovieFromList={removeMovieFromList} 
+              <MoviesList
+                movies={list.movies}
+                isUserList={true}
+                listName={list.name}
+                removeMovieFromList={removeMovieFromList}
                 addMovieToList={addMovieToList}
                 isFavoritesPage={isFavoritesPage}
                 userLists={userLists}
@@ -90,7 +108,7 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
         addList={addList}
       />
 
-{isDeleteModalOpen && listIdToDelete && (
+      {isDeleteModalOpen && listIdToDelete && (
         <div className="modal show" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
           <div className="modal-dialog" role="document">
             <div className="modal-content">

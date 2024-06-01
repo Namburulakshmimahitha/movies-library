@@ -8,6 +8,7 @@ import Protected from './components/pages/Protected';
 import Favourites from './components/pages/Favourites';
 import { auth, db } from './firebase';
 import { collection, addDoc, getDocs, getDoc, setDoc, query, where, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import PublicListDetails from './components/pages/PublicListDetails';
 
 function App() {
   const [userLists, setuserLists] = useState([]);
@@ -54,6 +55,13 @@ function App() {
         });
         const newList = { id: newDocRef.id, name: listName, movies: [], isPublic };
         setuserLists(prevLists => [...prevLists, newList]);
+        if (isPublic) {
+          await setDoc(doc(db, 'publicLists', newDocRef.id), {
+            name: listName,
+            movies: [],
+            userId: user.uid
+          });
+        }
       } catch (error) {
         console.error('Error adding list:', error);
       }
@@ -85,6 +93,12 @@ function App() {
             return list;
           });
           setuserLists(updatedLists);
+          if (listDoc.data().isPublic) {
+            const publicListRef = doc(db, 'publicLists', listId.toString());
+            await updateDoc(publicListRef, {
+              movies: arrayUnion(movie),
+            });
+          }
         }
       } catch (error) {
         console.error('Error adding movie to list:', error);
@@ -145,18 +159,21 @@ function App() {
 
   return (
     <AuthContextProvider>
-        <Routes>
-          <Route path="/" element={<Log />} />
-          <Route path="/main" element={
-            <Protected>
-              <Home userLists={userLists} addMovieToList={addMovieToList} removeMovieFromList= {removeMovieFromList} deleteList={deleteList}/>
-            </Protected>} />
-          <Route path="/favorites" element={
-            <Protected>
-              <Favourites userLists={userLists} addList={addList} removeMovieFromList={removeMovieFromList} deleteList={deleteList} />
-            </Protected>
-          } />
-        </Routes>
+      <Routes>
+        <Route path="/" element={<Log />} />
+        <Route path="/main" element={
+          <Protected>
+            <Home userLists={userLists} addMovieToList={addMovieToList} removeMovieFromList={removeMovieFromList} deleteList={deleteList} />
+          </Protected>} />
+        <Route path="/favorites" element={
+          <Protected>
+            <Favourites userLists={userLists} addList={addList} removeMovieFromList={removeMovieFromList} deleteList={deleteList} />
+          </Protected>
+        } />
+        <Route path="/list/:listId" element={
+            <PublicListDetails userLists={userLists} />
+        } />
+      </Routes>
     </AuthContextProvider>
   );
 }
