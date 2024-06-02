@@ -45,6 +45,7 @@ export default function Navbar({ searchValue, setSearchValue }) {
            
             <div className="search-box-container">
                 <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
+                <h1>{searchValue}</h1>
             </div>
             <div className="profcon">
                 <div class="toolbardropdown">

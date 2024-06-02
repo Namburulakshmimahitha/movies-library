@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from './../context/AuthContext';
 import Navbar from './Navbar';
-import SearchBox from './SearchBox';
 import MoviesList from './MoviesList';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { auth } from './../../firebase';
 import Loader from './Loader';
-import { toast } from 'react-toastify'; 
+import { toast } from 'react-toastify';
 
 export default function Home({ userLists, addMovieToList, removeMovieFromList, publicLists }) {
   const { logOut, user } = useAuth();
@@ -21,9 +20,7 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
   const [selectedListId, setSelectedListId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Function to display success toast
   const notifySuccess = (message) => toast.success(message);
-  // Function to display error toast
   const notifyError = (message) => toast.error(message);
 
   const handleDropdownChange = (e) => {
@@ -33,16 +30,16 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
   const handleSave = async () => {
     if (selectedListId) {
       await addMovieToList(selectedListId, selectedMovie);
-      notifySuccess('Movie added to list successfully'); // Notify success
+      notifySuccess('Movie added to list successfully');
     } else {
-      notifyError('Please select a list'); // Notify error if no list selected
+      notifyError('Please select a list');
     }
     setIsModalOpen(false);
   };
 
   const getMovieRequest = async (searchValue, filter) => {
-    setIsLoading(true); // Start loading
-    let url = `https://www.omdbapi.com/?s=Batman&apikey=9f4b6e24`;
+    setIsLoading(true);
+    let url = `https://www.omdbapi.com/?s=${searchValue}&apikey=9f4b6e24`;
 
     if (filter !== 'all') {
       url += `&type=${filter}`;
@@ -52,20 +49,25 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
       const response = await fetch(url);
       const data = await response.json();
 
+      console.log("API response:", data);
+
       if (data.Search) {
         setMovies(data.Search);
+        console.log("Displayed movies:", data.Search);
       } else {
         setMovies([]);
+        console.log("Displayed movies: []");
       }
     } catch (error) {
       console.error('Error fetching movies:', error);
     }
-    setIsLoading(false); // End loading
+    setIsLoading(false);
   };
 
   useEffect(() => {
+    console.log("Fetching movies with search value:", searchValue, "and filter:", filter);
     getMovieRequest(searchValue || 'Batman', filter);
-  }, []);
+  }, [searchValue, filter]);
 
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
@@ -99,7 +101,7 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
       </div>
 
       {isLoading ? (
-        <Loader /> // Render the Loader component when data is loading
+        <Loader />
       ) : (
         <div className='row'>
           <MoviesList movies={movies} onAddToListClick={handleAddToListClick} userLists={userLists} addMovieToList={addMovieToList} removeMovieFromList={removeMovieFromList} publicLists={publicLists} />
