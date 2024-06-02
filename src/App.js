@@ -9,6 +9,8 @@ import Favourites from './components/pages/Favourites';
 import { auth, db } from './firebase';
 import { collection, addDoc, getDocs, getDoc, setDoc, query, where, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import PublicListDetails from './components/pages/PublicListDetails';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [userLists, setuserLists] = useState([]);
@@ -30,6 +32,7 @@ function App() {
           console.log(user.email);
         } catch (error) {
           console.error('Error fetching user lists:', error);
+          toast.error('Error fetching user lists');
         }
       }
     };
@@ -49,6 +52,15 @@ function App() {
     const user = auth.currentUser;
     if (user) {
       try {
+        // Check if a list with the same name already exists for this user
+        const q = query(collection(db, 'userLists'), where('userId', '==', user.uid), where('name', '==', listName));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          toast.error('List with this name already exists');
+          return;
+        }
+
+        // Create the new list
         const newDocRef = await addDoc(collection(db, 'userLists'), {
           userId: user.uid,
           name: listName,
@@ -57,33 +69,46 @@ function App() {
         });
         const newList = { id: newDocRef.id, name: listName, movies: [], isPublic };
         setuserLists(prevLists => [...prevLists, newList]);
+
         if (isPublic) {
           await setDoc(doc(db, 'publicLists', newDocRef.id), {
             name: listName,
             movies: [],
-            userId: user.uid
+            userId: user.uid,
+            username : user.displayName
           });
         }
+        toast.success('List added successfully');
       } catch (error) {
         console.error('Error adding list:', error);
+        toast.error('Error adding list');
       }
     } else {
       console.error('User is not logged in');
+      toast.error('User is not logged in');
     }
   };
+
 
   const addMovieToList = async (listId, movie) => {
     const user = auth.currentUser;
     if (user) {
       try {
         const listRef = doc(db, 'userLists', listId.toString());
-        console.log(listId);
         const listDoc = await getDoc(listRef);
-        console.log(listDoc)
 
         if (!listDoc.exists()) {
           console.error('List does not exist');
+          toast.error('List does not exist');
         } else {
+          const moviesArray = listDoc.data().movies;
+          const movieExists = moviesArray.some(m => m.imdbID === movie.imdbID);
+          
+          if (movieExists) {
+            toast.error('Movie already exists in the list');
+            return;
+          }
+
           await updateDoc(listRef, {
             movies: arrayUnion(movie),
           });
@@ -101,9 +126,11 @@ function App() {
               movies: arrayUnion(movie),
             });
           }
+          toast.success('Movie added to list successfully');
         }
       } catch (error) {
         console.error('Error adding movie to list:', error);
+        toast.error('Error adding movie to list');
       }
     }
   };
@@ -116,6 +143,7 @@ function App() {
         const listDoc = await getDoc(listRef);
         if (!listDoc.exists()) {
           console.error('List does not exist');
+          toast.error('List does not exist');
         } else {
           const moviesArray = listDoc.data().movies;
           if (Array.isArray(moviesArray)) {
@@ -124,6 +152,14 @@ function App() {
               await updateDoc(listRef, {
                 movies: arrayRemove(movieToRemove),
               });
+              // Remove the movie from the public list if the list is public
+              if (listDoc.data().isPublic) {
+                const publicListRef = doc(db, 'publicLists', listId);
+                await updateDoc(publicListRef, {
+                  movies: arrayRemove(movieToRemove),
+                });
+              }
+              // Update local state
               const updatedLists = userLists.map(list => {
                 if (list.id === listId) {
                   return { ...list, movies: list.movies.filter(movie => movie.imdbID !== movieId) };
@@ -131,18 +167,23 @@ function App() {
                 return list;
               });
               setuserLists(updatedLists);
+              toast.success('Movie removed from list successfully');
             } else {
               console.error('Movie not found in the list');
+              toast.error('Movie not found in the list');
             }
           } else {
             console.error('moviesArray is not an array');
+            toast.error('Error removing movie from list');
           }
         }
       } catch (error) {
         console.error('Error removing movie from list:', error);
+        toast.error('Error removing movie from list');
       }
     } else {
       console.error('User not authenticated');
+      toast.error('User not authenticated');
     }
   };
 
@@ -150,17 +191,38 @@ function App() {
     const user = auth.currentUser;
     if (user) {
       try {
-        await deleteDoc(doc(db, 'userLists', listId));
+        const listRef = doc(db, 'userLists', listId);
+        const listDoc = await getDoc(listRef);
+        if (listDoc.exists() && listDoc.data().isPublic) {
+          // Delete the list from the public lists collection
+          await deleteDoc(doc(db, 'publicLists', listId));
+        }
+        // Delete the list from the user lists collection
+        await deleteDoc(listRef);
+        // Update local state
         const updatedLists = userLists.filter(list => list.id !== listId);
         setuserLists(updatedLists);
+        toast.success('List deleted successfully');
       } catch (error) {
         console.error('Error deleting list:', error);
+        toast.error('Error deleting list');
       }
     }
   };
 
   return (
     <AuthContextProvider>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000} // Adjust autoClose time as needed
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Routes>
         <Route path="/" element={<Log />} />
         <Route path="/main" element={
@@ -169,11 +231,11 @@ function App() {
           </Protected>} />
         <Route path="/favorites" element={
           <Protected>
-            <Favourites userLists={userLists} addList={addList} removeMovieFromList={removeMovieFromList} deleteList={deleteList}  />
+            <Favourites userLists={userLists} addList={addList} removeMovieFromList={removeMovieFromList} deleteList={deleteList} />
           </Protected>
         } />
         <Route path="/list/:listId" element={
-            <PublicListDetails userLists={userLists} />
+          <PublicListDetails userLists={userLists} />
         } />
       </Routes>
     </AuthContextProvider>
@@ -181,6 +243,3 @@ function App() {
 }
 
 export default App;
-
-
-

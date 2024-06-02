@@ -37,8 +37,8 @@ export default function Navbar({ searchValue, setSearchValue }) {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bgcolorisgf">
-            <a className="navbar-brand" href="/">FLEX POP</a>
+        <nav className="navbar navbar-expand-lg  bgcolorisgf">
+            <a className="navbar-brand" href="/">FLEX POP&nbsp;<i class="fa-solid fa-film"></i></a>
             {/* <li className="nav-item">
                 <Link className="nav-link" to="/favorites">Favorites</Link>
             </li> */}

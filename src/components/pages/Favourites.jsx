@@ -5,7 +5,6 @@ export default function Favourites({ userLists, removeMovieFromList, addList, ad
   return (
     <>
       <div>
-        <h2>Favorites</h2>
         <UsersMoviesLists
           userLists={userLists}
           removeMovieFromList={removeMovieFromList}
@@ -13,7 +12,7 @@ export default function Favourites({ userLists, removeMovieFromList, addList, ad
           addMovieToList={addMovieToList}
           deleteList={deleteList} // Pass deleteList prop
           isFavoritesPage={true}
-        />
+          />
       </div>
     </>
   );

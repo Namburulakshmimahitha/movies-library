@@ -6,6 +6,8 @@ import MoviesList from './MoviesList';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { auth } from './../../firebase';
+import Loader from './Loader';
+import { toast } from 'react-toastify'; 
 
 
 
@@ -20,6 +22,13 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedListId, setSelectedListId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+   // Function to display success toast
+   const notifySuccess = (message) => toast.success(message);
+   // Function to display error toast
+   const notifyError = (message) => toast.error(message);
+ 
 
 
 
@@ -30,6 +39,9 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
   const handleSave = async () => {
     if (selectedListId) {
       await addMovieToList(selectedListId, selectedMovie);
+      notifySuccess('Movie added to list successfully'); // Notify success
+    } else {
+      notifyError('Please select a list'); // Notify error if no list selected
     }
     setIsModalOpen(false);
   };
@@ -53,12 +65,13 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
     } catch (error) {
       console.error('Error fetching movies:', error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     getMovieRequest(searchValue || 'Batman', filter);
-    // console.log(userLists);
-  }, []);
+
+  }, [searchValue, filter]);
 
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
@@ -92,10 +105,13 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
         </Link>
       </div>
 
-
-      <div className='row'>
-        <MoviesList movies={movies} onAddToListClick={handleAddToListClick} userLists={userLists} addMovieToList={addMovieToList} removeMovieFromList={removeMovieFromList} publicLists={publicLists} />
-      </div>
+      {isLoading ? (
+        <Loader /> // Render the Loader component when data is loading
+      ) : (
+        <div className='row'>
+          <MoviesList movies={movies} onAddToListClick={handleAddToListClick} userLists={userLists} addMovieToList={addMovieToList} removeMovieFromList={removeMovieFromList} publicLists={publicLists} />
+        </div>
+      )}
       {isModalOpen && selectedMovie && (
         <div className="modal show" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
           <div className="modal-dialog" role="document">
