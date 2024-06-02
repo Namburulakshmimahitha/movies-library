@@ -7,7 +7,7 @@ Navigate to the Project Directory:
 cd movie-library
 
 Install Dependencies:
-npm install
+"npm install"
 This will install all the required dependencies specified in the package.json file.
 
 Set Up Firebase Configuration:
