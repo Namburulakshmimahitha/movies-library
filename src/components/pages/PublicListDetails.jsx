@@ -17,7 +17,7 @@ export default function PublicListDetails() {
 
   const fetchMovieDetails = async (title) => {
     setIsLoading(true); // Set loading to true before fetching
-    const response = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=6a7eb2c1`);
+    const response = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=9f4b6e24`);
     const data = await response.json();
     setMovieDetails(data);
     setIsLoading(false); // Set loading to false after fetching

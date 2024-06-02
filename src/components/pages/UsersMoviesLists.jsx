@@ -18,7 +18,7 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
 
 
   const fetchMovieDetails = async (title) => {
-    const response = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=6a7eb2c1`);
+    const response = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=9f4b6e24`);
     const data = await response.json();
     setMovieDetails(data);
   };

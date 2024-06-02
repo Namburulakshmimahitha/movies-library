@@ -47,7 +47,7 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
   };
 
   const getMovieRequest = async (searchValue, filter) => {
-    let url = `http://www.omdbapi.com/?s=${searchValue}&apikey=6a7eb2c1`;
+    let url = `http://www.omdbapi.com/?s=${searchValue}&apikey=9f4b6e24`;
 
     if (filter !== 'all') {
       url += `&type=${filter}`;
@@ -71,7 +71,7 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
   useEffect(() => {
     getMovieRequest(searchValue || 'Batman', filter);
 
-  }, [searchValue, filter]);
+  }, []);
 
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
