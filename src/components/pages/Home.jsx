@@ -9,9 +9,6 @@ import { auth } from './../../firebase';
 import Loader from './Loader';
 import { toast } from 'react-toastify'; 
 
-
-
-
 export default function Home({ userLists, addMovieToList, removeMovieFromList, publicLists }) {
   const { logOut, user } = useAuth();
   const navigate = useNavigate();
@@ -24,13 +21,10 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
   const [selectedListId, setSelectedListId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-   // Function to display success toast
-   const notifySuccess = (message) => toast.success(message);
-   // Function to display error toast
-   const notifyError = (message) => toast.error(message);
- 
-
-
+  // Function to display success toast
+  const notifySuccess = (message) => toast.success(message);
+  // Function to display error toast
+  const notifyError = (message) => toast.error(message);
 
   const handleDropdownChange = (e) => {
     setSelectedListId(e.target.value);
@@ -47,6 +41,7 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
   };
 
   const getMovieRequest = async (searchValue, filter) => {
+    setIsLoading(true); // Start loading
     let url = `http://www.omdbapi.com/?s=${searchValue}&apikey=9f4b6e24`;
 
     if (filter !== 'all') {
@@ -65,12 +60,11 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
     } catch (error) {
       console.error('Error fetching movies:', error);
     }
-    setIsLoading(false);
+    setIsLoading(false); // End loading
   };
 
   useEffect(() => {
     getMovieRequest(searchValue || 'Batman', filter);
-
   }, []);
 
   const handleFilterChange = (newFilter) => {
@@ -87,9 +81,8 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedMovie(null);
-    console.log(selectedMovie)
+    console.log(selectedMovie);
   };
-
 
   return (
     <div className='hoemcont hide-scrollbar'>
@@ -156,7 +149,6 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
           </div>
         </div>
       )}
-
     </div>
   );
 }
