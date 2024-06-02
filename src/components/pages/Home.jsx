@@ -92,7 +92,7 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
 
 
   return (
-    <div className='hoemcont'>
+    <div className='hoemcont hide-scrollbar'>
       <Navbar searchValue={searchValue} setSearchValue={setSearchValue} />
       <div className="nav-barh">
         <div className='button-group'>

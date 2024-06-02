@@ -8,6 +8,18 @@ body{
   font-family: 'Orbitron', sans-serif
 }
 
+.hoemcont {
+  overflow: hidden;
+  overflow-y: hidden;
+}
+
+/* Optional: if you have other scrollable elements inside the component */
+.hoemcont .scrollable-element {
+  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
 :root {
   --aha: rgb(245, 98, 41);
   --slblack: rgb(33, 33, 33);
@@ -22,6 +34,16 @@ body{
   justify-content: center;
   align-items: center;
   background-color: var(--trans);
+}
+
+.hoemcont::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hoemcont {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .totusecont{
@@ -195,10 +217,10 @@ display: flex;
 
 .dropdown-menu {
   position: absolute;
-  right: 80px;
-  left: -20px;
+  right: 90%;
+  left: -29%;
   top: 60px;
-  width: 250px;
+  width: 300px;
   padding: 10px;
   
 }
@@ -375,7 +397,7 @@ display: flex;
   }
 
   .dropdown-menu {
-    width: 200px;
+    width: 700px;
   }
 }
 
@@ -418,7 +440,7 @@ display: flex;
   }
 
   .dropdown-menu {
-    width: 150px;
+    width: 300px;
   }
 }
 
@@ -440,7 +462,7 @@ display: flex;
   }
 
   .dropdown-menu {
-    width: 130px;
+    width: 330px;
   }
 }
 
