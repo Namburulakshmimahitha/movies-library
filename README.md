@@ -16,7 +16,7 @@ Obtain your Firebase configuration settings (apiKey, authDomain, projectId, etc.
 Add your Firebase configuration to your React project. This usually involves creating a firebase.js file in your project and initializing Firebase with your configuration settings.
 
 Start the Development Server:
-npm start
+"npm start"
 This command will start the development server and open your React application in a web browser.
 
 Access the Application:
