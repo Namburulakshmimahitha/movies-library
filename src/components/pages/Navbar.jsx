@@ -38,21 +38,21 @@ export default function Navbar({ searchValue, setSearchValue }) {
 
     return (
         <nav className="navbar navbar-expand-lg  bgcolorisgf">
-            <a className="navbar-brand" href="/">FLEX POP&nbsp;<i class="fa-solid fa-film"></i></a>
+            <a className="navbar-brand" href="/">FLEX POP&nbsp;<i className="fa-solid fa-film"></i></a>
             {/* <li className="nav-item">
                 <Link className="nav-link" to="/favorites">Favorites</Link>
             </li> */}
-           
+
             <div className="search-box-container">
                 <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
             </div>
             <div className="profcon">
-                <div class="toolbardropdown">
-                    <img src={user.photoURL || require("../../Assests/priofilephoto.png")} alt="User profile" class="toolbarcirclebtn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
-                    <div class="dropdown-menu userdropdown" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Welcome, {user?.displayName}</a>
-                        <a class="dropdown-item" href="#">{user.email}</a>
-                        <a class="dropdown-item" onClick={handleSignOut}><i class="fa-solid fa-right-from-bracket"></i>&nbsp;Logout</a>
+                <div className="toolbardropdown">
+                    <img src={user.photoURL || require("../../Assests/priofilephoto.png")} alt="" className="toolbarcirclebtn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
+                    <div className="dropdown-menu userdropdown" aria-labelledby="dropdownMenuButton">
+                        <a className="dropdown-item" href="/">Welcome, {user?.displayName}</a>
+                        <a className="dropdown-item" href="/">{user.email}</a>
+                        <a className="dropdown-item" onClick={handleSignOut}><i className="fa-solid fa-right-from-bracket"></i>&nbsp;Logout</a>
                     </div>
                 </div>
             </div>

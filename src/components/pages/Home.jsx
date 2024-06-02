@@ -49,8 +49,6 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
       const response = await fetch(url);
       const data = await response.json();
 
-      console.log("API response:", data);
-
       if (data.Search) {
         setMovies(data.Search);
         console.log("Displayed movies:", data.Search);
@@ -65,7 +63,7 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
   };
 
   useEffect(() => {
-    console.log("Fetching movies with search value:", searchValue, "and filter:", filter);
+    // console.log("Fetching movies with search value:", searchValue, "and filter:", filter);
     getMovieRequest(searchValue || 'Batman', filter);
   }, [searchValue, filter]);
 

@@ -60,16 +60,16 @@ export default function PublicListDetails() {
       <div className="movie-grid">
         {listDetails.movies.map((movie, index) => (
           <div key={index} className="movie-card">
-              <img src={movie.Poster} alt={movie.Title} className="card-img-top" />
+            <img src={movie.Poster} alt={movie.Title} className="card-img-top" />
             <div className="card-body">
-            <div className='button-container'>
-              <button
-                    className='info-button'
-                    onClick={() => handleInfoButtonClick(movie)}
-                  >
-                    <i className="fa-solid fa-info-circle"></i>
-                  </button>
-                  </div>
+              <div className='button-container'>
+                <button
+                  className='info-button'
+                  onClick={() => handleInfoButtonClick(movie)}
+                >
+                  <i className="fa-solid fa-info-circle"></i>
+                </button>
+              </div>
             </div>
           </div>
         ))}
@@ -85,7 +85,7 @@ export default function PublicListDetails() {
               </div>
               <div className="modal-body">
                 {isLoading ? (
-                  <Loader/> // Render loader component while fetching data
+                  <Loader /> // Render loader component while fetching data
                 ) : (
                   movieDetails ? (
                     <>
@@ -141,6 +141,6 @@ export default function PublicListDetails() {
       )}
     </div>
 
-    
+
   );
 }

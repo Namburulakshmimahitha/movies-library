@@ -75,7 +75,7 @@ function App() {
             name: listName,
             movies: [],
             userId: user.uid,
-            username : user.displayName
+            username: user.displayName
           });
         }
         toast.success('List added successfully');
@@ -103,7 +103,7 @@ function App() {
         } else {
           const moviesArray = listDoc.data().movies;
           const movieExists = moviesArray.some(m => m.imdbID === movie.imdbID);
-          
+
           if (movieExists) {
             toast.error('Movie already exists in the list');
             return;

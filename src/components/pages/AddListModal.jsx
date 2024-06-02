@@ -76,9 +76,9 @@ export default function AddListModal({ isOpen, onClose, addList }) {
           </div>
           <div className="modal-footer">
             {newListName.trim() ? (
-              <button type="button" className="btn btn-primary" onClick={handleSave}><i class="fa-solid fa-check"></i>&nbsp;Save</button>
+              <button type="button" className="btn btn-primary" onClick={handleSave}><i className="fa-solid fa-check"></i>&nbsp;Save</button>
             ) : null}
-            <button type="button" className="btn-secondary" data-dismiss="modal" onClick={onClose}><i class="fa-solid fa-circle-xmark"></i>&nbsp;Close</button>
+            <button type="button" className="btn-secondary" data-dismiss="modal" onClick={onClose}><i className="fa-solid fa-circle-xmark"></i>&nbsp;Close</button>
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ export default function Favourites({ userLists, removeMovieFromList, addList, ad
           addMovieToList={addMovieToList}
           deleteList={deleteList} // Pass deleteList prop
           isFavoritesPage={true}
-          />
+        />
       </div>
     </>
   );

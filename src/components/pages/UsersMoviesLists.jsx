@@ -3,13 +3,13 @@ import MoviesList from './MoviesList';
 import AddListModal from './AddListModal';
 import { Link, useNavigate } from 'react-router-dom';
 import nolistsimage from './../../Assests/nolistsimage.jpg'
-import { ToastContainer ,toast} from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function UsersMoviesLists({ userLists, removeMovieFromList, addList, addMovieToList, deleteList, isFavoritesPage }) {
   const [showModal, setShowModal] = useState(false);
-  const [visibilityFilter, setVisibilityFilter] = useState('public'); // 'public' or 'private'
+  const [visibilityFilter, setVisibilityFilter] = useState('public'); 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [listIdToDelete, setListIdToDelete] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
@@ -116,7 +116,7 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
 
   return (
     <>
-    <ToastContainer
+      <ToastContainer
         position="bottom-left"
         autoClose={3000} // Adjust autoClose time as needed
         hideProgressBar={false}
@@ -133,7 +133,7 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
             <button onClick={() => navigate('/main')} className='back-button'>
               <i className="fa fa-arrow-left" aria-hidden="true"></i>
             </button>
-            <h3>Favourite Lists&nbsp;<i class="fa-solid fa-heart heart"></i></h3>
+            <h3>Favourite Lists&nbsp;<i className="fa-solid fa-heart heart"></i></h3>
             <div className="button-group">
               <button onClick={() => toggleVisibility('public')} className='btn'>
                 Public Lists
@@ -146,7 +146,7 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
               onClick={openModal}
               className='addinglist'
             >
-              <i class="fa-solid fa-plus"></i>
+              <i className="fa-solid fa-plus"></i>
             </button>
           </div>
         </div>
@@ -223,7 +223,7 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
                   Remove
                 </button> */}
                   <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={handleDeleteList}>
-                    <i class="fa-solid fa-trash"></i>&nbsp;Delete
+                    <i className="fa-solid fa-trash"></i>&nbsp;Delete
                   </button>
                 </div>
               </div>
@@ -243,7 +243,7 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={handleConfirmRemove}>
-                    <i class="fa-solid fa-trash"></i>&nbsp;Remove
+                    <i className="fa-solid fa-trash"></i>&nbsp;Remove
                   </button>
                 </div>
               </div>

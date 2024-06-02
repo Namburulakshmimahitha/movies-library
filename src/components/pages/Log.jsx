@@ -22,15 +22,15 @@ const Log = () => {
 
   return (
     <div className="backimg">
-    <div id="loginPage" className='container'>
-      <h1 className='logintext'>Explore the Movie library...</h1>
-      <div className='logbutton-container'>
-        <button className="custom-google-button" onClick={handleGoogleSignIn}>
-          <i className="fa-brands fa-google fa-bounce"></i> {/* Corrected className */}
-          <span>Sign in with Google</span>
-        </button>
+      <div id="loginPage" className='container'>
+        <h1 className='logintext'>Explore the Movie library.....</h1>
+        <div className='logbutton-container'>
+          <button className="custom-google-button" onClick={handleGoogleSignIn}>
+            <i className="fa-brands fa-google fa-bounce"></i> {/* Corrected className */}
+            <span>Sign in with Google</span>
+          </button>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

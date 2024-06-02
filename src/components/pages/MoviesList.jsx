@@ -153,11 +153,11 @@ export default function MoviesList({ movies, addMovieToList, userLists, isUserLi
               <div className="modal-footer">
                 {selectedListId && (
                   <button type="button" className="btn btn-primary" onClick={handleSave}>
-                    <i class="fa-solid fa-check"></i>&nbsp;Save
+                    <i className="fa-solid fa-check"></i>&nbsp;Save
                   </button>
                 )}
                 <button type="button" className="btn-secondary " data-dismiss="modal" onClick={() => setIsModalOpen(false)}>
-                  <i class="fa-solid fa-circle-xmark"></i>&nbsp;Close
+                  <i className="fa-solid fa-circle-xmark"></i>&nbsp;Close
                 </button>
               </div>
             </div>
@@ -199,7 +199,7 @@ export default function MoviesList({ movies, addMovieToList, userLists, isUserLi
               </div>
               <div className="modal-body">
                 {isLoading ? (
-                  <Loader/> // Render loader component while fetching data
+                  <Loader /> // Render loader component while fetching data
                 ) : (
                   movieDetails ? (
                     <>
