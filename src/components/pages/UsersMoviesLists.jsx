@@ -3,6 +3,8 @@ import MoviesList from './MoviesList';
 import AddListModal from './AddListModal';
 import { Link, useNavigate } from 'react-router-dom';
 import nolistsimage from './../../Assests/nolistsimage.jpg'
+import { ToastContainer ,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function UsersMoviesLists({ userLists, removeMovieFromList, addList, addMovieToList, deleteList, isFavoritesPage }) {
@@ -67,8 +69,8 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
 
   const copyToClipboard = (link) => {
     navigator.clipboard.writeText(link)
-      .then(() => alert('Link copied to clipboard!'))
-      .catch(err => console.error('Could not copy text: ', err));
+      .then(() => toast.success('Link copied to clipboard!'))
+      .catch(err => toast.error('Could not copy text: '));
   };
 
 
@@ -114,6 +116,17 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
 
   return (
     <>
+    <ToastContainer
+        position="bottom-left"
+        autoClose={3000} // Adjust autoClose time as needed
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="totusecont">
         <div className="homecont">
           <div className="nav-barhw">
