@@ -42,7 +42,7 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
 
   const getMovieRequest = async (searchValue, filter) => {
     setIsLoading(true); // Start loading
-    let url = `http://www.omdbapi.com/?s=${searchValue}&apikey=9f4b6e24`;
+    let url = `https://www.omdbapi.com/?s=Batman&apikey=9f4b6e24`;
 
     if (filter !== 'all') {
       url += `&type=${filter}`;
