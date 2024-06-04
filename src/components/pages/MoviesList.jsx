@@ -2,6 +2,7 @@ import { list } from 'firebase/storage';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from './Loader';
+import LoderModal from './LoderModal';
 
 export default function MoviesList({ movies, addMovieToList, userLists, isUserList, removeMovieFromList, isFavoritesPage, publicLists }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -199,7 +200,7 @@ export default function MoviesList({ movies, addMovieToList, userLists, isUserLi
               </div>
               <div className="modal-body">
                 {isLoading ? (
-                  <Loader /> // Render loader component while fetching data
+                  <LoderModal /> // Render loader component while fetching data
                 ) : (
                   movieDetails ? (
                     <>

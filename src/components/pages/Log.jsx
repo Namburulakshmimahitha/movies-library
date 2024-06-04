@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from './../context/AuthContext';
 import { useNavigate } from "react-router-dom";
+import Loader from './Loader'
 
 const Log = () => {
-  const { googleSignIn, user } = useAuth();
+  const { googleSignIn, user ,loading } = useAuth();
   const navigate = useNavigate();
+  // const [isLoading, setIsLoading] = useState(true); // Loading state
 
   const handleGoogleSignIn = async () => {
     try {
@@ -15,10 +17,17 @@ const Log = () => {
   };
 
   useEffect(() => {
-    if (user !== null) { // Check if user is not null or undefined
-      navigate("/main");
+    if (!loading) { // Ensure loading is complete before checking user
+      if (user) {
+        navigate("/main");
+      }
     }
-  }, [user, navigate]);
+  }, [user, loading, navigate]);
+
+
+  if (loading) {
+    return <Loader/>; // You can use a spinner or a loader here
+  }
 
   return (
     <div className="backimg">

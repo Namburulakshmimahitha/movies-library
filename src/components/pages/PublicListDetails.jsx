@@ -4,6 +4,7 @@ import { db } from '../../firebase'; // Ensure you have the correct path to your
 import { doc, getDoc } from 'firebase/firestore';
 import { Link } from 'react-router-dom';
 import Loader from './Loader';
+import LoderModal from './LoderModal';
 
 export default function PublicListDetails() {
   const { listId } = useParams();
@@ -85,7 +86,7 @@ export default function PublicListDetails() {
               </div>
               <div className="modal-body">
                 {isLoading ? (
-                  <Loader /> // Render loader component while fetching data
+                  <LoderModal /> // Render loader component while fetching data
                 ) : (
                   movieDetails ? (
                     <>

@@ -1281,6 +1281,22 @@ li {
 
 /* loader.css  */
 
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+}
+
+.loader-wrapperm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh; /* Full viewport height */
+  width: 50vw; /* Full viewport width */
+}
+
 .loader {
   width: 64px;
   height: 48px;
@@ -1358,4 +1374,60 @@ li {
 
 .nolistsava {
   color: white;
+}
+
+
+.mancontainerer {
+  height: 100vh;
+  width: 100vh;
+  align-items: center;
+}
+
+svg {
+    display: block;
+    font: 4.5em 'Add the Movies to view the list';
+    width: 1200px;
+    height: 600px;
+    margin: 0 auto;
+    margin-left: 90px;
+    /* margin-left: 90px; */
+
+}
+
+.text-copy {
+    fill: none;
+    stroke: white;
+    stroke-dasharray: 6% 29%;
+    stroke-width: 5px;
+    stroke-dashoffset: 0%;
+    animation: stroke-offset 5.5s infinite linear;
+}
+
+.text-copy:nth-child(1){
+  stroke: white;
+  animation-delay: -1;
+}
+
+.text-copy:nth-child(2){
+  stroke: var(--aha);
+  animation-delay: -2s;
+}
+
+.text-copy:nth-child(3){
+  stroke: var(--aha);
+  animation-delay: -3s;
+}
+
+.text-copy:nth-child(4){
+  stroke: white;
+  animation-delay: -4s;
+}
+
+.text-copy:nth-child(5){
+  stroke: var(--aha);
+  animation-delay: -5s;
+}
+
+@keyframes stroke-offset{
+  100% {stroke-dashoffset: -35%;}
 }

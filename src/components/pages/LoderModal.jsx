@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function Loader() {
+export default function LoderModal() {
   return (
-    <div className="loader-wrapper">
+    <div className="loader-wrapperm">
       <span className="loader"></span>
     </div>
   )

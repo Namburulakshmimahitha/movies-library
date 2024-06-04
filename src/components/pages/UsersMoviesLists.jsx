@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function UsersMoviesLists({ userLists, removeMovieFromList, addList, addMovieToList, deleteList, isFavoritesPage }) {
   const [showModal, setShowModal] = useState(false);
-  const [visibilityFilter, setVisibilityFilter] = useState('public'); 
+  const [visibilityFilter, setVisibilityFilter] = useState('public');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [listIdToDelete, setListIdToDelete] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
@@ -151,45 +151,66 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
           </div>
         </div>
         {hasLists ? (
-          filteredLists
-            .filter(list => list.movies.length > 0)
-            .map((list, index) => (
-              <div key={index} className="list-container">
-                <div className="list-header">
-                  <div className="list-name-buttons">
-                    <h3 className="list-name">
-                      {index + 1}. {list.name}
-                    </h3>
-                    &nbsp;
-                    <button onClick={() => handleDeleteButtonClick(list.id)} className='tbtn tbtn-danger tbtn-icon-only'>
-                      <i className="fa fa-trash" aria-hidden="true"></i>
-                    </button>&nbsp;
-                    {list.isPublic && (
-                      <button onClick={() => copyToClipboard(getShareableLink(list.id))} className='ibtn ibtn-danger ibtn-icon-only'>
-                        <i className="fa fa-clone" aria-hidden="true"></i>
-                      </button>
-                    )}
+          <div>
+            {filteredLists.map((list, index) => (
+              <div key={list.id} className="list-container">
+                {list.movies.length > 0 && (
+                  <div className="list-header">
+                    <div className="list-name-buttons">
+                      <h3 className="list-name">
+                        {index + 1}. {list.name}
+                      </h3>
+                      &nbsp;
+                      <button onClick={() => handleDeleteButtonClick(list.id)} className='tbtn tbtn-danger tbtn-icon-only'>
+                        <i className="fa fa-trash" aria-hidden="true"></i>
+                      </button>&nbsp;
+                      {list.isPublic && (
+                        <button onClick={() => copyToClipboard(getShareableLink(list.id))} className='ibtn ibtn-danger ibtn-icon-only'>
+                          <i className="fa fa-clone" aria-hidden="true"></i>
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className="movie-grid">
-                  {list.movies.map((movie, index) => (
-                    <div key={index} className='movie-card'>
-                      <img src={movie.Poster} alt={movie.Title} className='movie-image' />
-                      <div className='card-body'>
-                        <div className='button-container'>
-                          <button onClick={() => handleRemoveButtonClick(movie)} className='remove-button'>
-                            <i className="fa-solid fa-trash"></i>
-                          </button>
-                          <button className='info-button' onClick={() => handleInfoButtonClick(movie)}>
-                            <i className="fa-solid fa-info-circle"></i>
-                          </button>
+                  {list.movies.length > 0 ? (
+                    list.movies.map((movie, movieIndex) => (
+                      <div key={movieIndex} className='movie-card'>
+                        <img src={movie.Poster} alt={movie.Title} className='movie-image' />
+                        <div className='card-body'>
+                          <div className='button-container'>
+                            <button onClick={() => handleRemoveButtonClick(movie)} className='remove-button'>
+                              <i className="fa-solid fa-trash"></i>
+                            </button>
+                            <button className='info-button' onClick={() => handleInfoButtonClick(movie)}>
+                              <i className="fa-solid fa-info-circle"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
+                    ))
+                  ) : (
+                    <div className="mancontainer">
+                      <svg viewBox="0 0 960 300">
+                        <symbol id="s-text">
+                          <text textAnchor="middle" x="50%" y="80%">Add the Movies to view the list</text>
+                        </symbol>
+
+                        <g className="g-ants">
+                          <use href="#s-text" className="text-copy"></use>
+                          <use href="#s-text" className="text-copy"></use>
+                          <use href="#s-text" className="text-copy"></use>
+                          <use href="#s-text" className="text-copy"></use>
+                          <use href="#s-text" className="text-copy"></use>
+                        </g>
+                      </svg>
                     </div>
-                  ))}
+
+                  )}
                 </div>
               </div>
-            ))
+            ))}
+          </div>
         ) : (
           <div className="no-lists">
             <img src={nolistsimage} alt="No Lists Available" />

@@ -1,4 +1,3 @@
-// AuthContext.js
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth } from './../../firebase';
@@ -7,6 +6,7 @@ const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
@@ -19,7 +19,8 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser || null); // Ensure currentUser is not undefined
+      setUser(currentUser || null);
+      setLoading(false); // Update loading state
     });
     return () => {
       unsubscribe();
@@ -27,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ googleSignIn, logOut, user }}>
+    <AuthContext.Provider value={{ googleSignIn, logOut, user, loading }}>
       {children}
     </AuthContext.Provider>
   );
@@ -39,7 +40,6 @@ export const useAuth = () => {
     throw new Error('useAuth must be used within an AuthContextProvider');
   }
 
-  // Define checkAuthentication function here
   const checkAuthentication = async () => {
     try {
       const currentUser = auth.currentUser;
@@ -53,5 +53,5 @@ export const useAuth = () => {
     }
   };
 
-  return { ...context, checkAuthentication }; // Include checkAuthentication in the returned context
+  return { ...context, checkAuthentication };
 };

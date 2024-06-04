@@ -65,6 +65,7 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
   useEffect(() => {
     // console.log("Fetching movies with search value:", searchValue, "and filter:", filter);
     getMovieRequest(searchValue || 'Batman', filter);
+    console.log("all mmovies :",filter);
   }, [searchValue, filter]);
 
   const handleFilterChange = (newFilter) => {
@@ -89,7 +90,7 @@ export default function Home({ userLists, addMovieToList, removeMovieFromList, p
       <Navbar searchValue={searchValue} setSearchValue={setSearchValue} />
       <div className="nav-barh">
         <div className='button-group'>
-          <button onClick={() => handleFilterChange('all')} className='btn'>All</button>
+          {/* <button onClick={() => handleFilterChange('all')} className='btn'>All</button> */}
           <button onClick={() => handleFilterChange('movie')} className='btn'>Movies</button>
           <button onClick={() => handleFilterChange('series')} className='btn'>Series</button>
         </div>
