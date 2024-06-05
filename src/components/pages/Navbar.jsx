@@ -50,8 +50,8 @@ export default function Navbar({ searchValue, setSearchValue }) {
                 <div className="toolbardropdown">
                     <img src={user.photoURL || require("../../Assests/priofilephoto.png")} alt="" className="toolbarcirclebtn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
                     <div className="dropdown-menu userdropdown" aria-labelledby="dropdownMenuButton">
-                        <a className="dropdown-item" href="/">Welcome, {user?.displayName}</a>
-                        <a className="dropdown-item" href="/">{user.email}</a>
+                        <a className="dropdown-item" >Welcome, {user?.displayName}</a>
+                        <a className="dropdown-item" >{user.email}</a>
                         <a className="dropdown-item" onClick={handleSignOut}><i className="fa-solid fa-right-from-bracket"></i>&nbsp;Logout</a>
                     </div>
                 </div>
