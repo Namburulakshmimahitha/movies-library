@@ -3,8 +3,6 @@ import MoviesList from './MoviesList';
 import AddListModal from './AddListModal';
 import { Link, useNavigate } from 'react-router-dom';
 import nolistsimage from './../../Assests/nolistsimage.jpg'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function UsersMoviesLists({ userLists, removeMovieFromList, addList, addMovieToList, deleteList, isFavoritesPage }) {
@@ -67,11 +65,34 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
     return `${window.location.origin}/list/${listId}`;
   };
 
+  const showToast = (message) => {
+    const container = document.getElementById('toast-container');
+    
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.textContent = message;
+    
+    container.appendChild(toast);
+    
+    // Force reflow to enable the animation
+    void toast.offsetWidth;
+    
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => {
+        container.removeChild(toast);
+      }, 500); // Match the transition duration
+    }, 3000); // Duration the toast is visible
+  };
+  
   const copyToClipboard = (link) => {
     navigator.clipboard.writeText(link)
-      .then(() => toast.success('Link copied to clipboard!'))
-      .catch(err => toast.error('Could not copy text: '));
+      .then(() => showToast('Link copied to clipboard!'))
+      .catch(err => showToast('Could not copy text: ' + err));
   };
+  
 
 
   const [movieToRemove, setMovieToRemove] = useState(null);
@@ -116,17 +137,7 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
 
   return (
     <>
-      <ToastContainer
-        position="bottom-left"
-        autoClose={3000} // Adjust autoClose time as needed
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+      <div id="toast-container"></div>
       <div className="totusecont">
         <div className="homecont">
           <div className="nav-barhw">

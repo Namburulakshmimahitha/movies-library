@@ -1339,13 +1339,13 @@ li {
 }
 
 /* toatmessage */
-.Toastify__toast--success {
+/* .Toastify__toast--success {
   background-color: var(--toastify-color-error);
 }
 
 .Toastify__toast--error {
   background-color: var(--toastify-color-error);
-}
+} */
 
 
 /* nolistsiame */
@@ -1430,4 +1430,25 @@ svg {
 
 @keyframes stroke-offset{
   100% {stroke-dashoffset: -35%;}
+}
+
+
+
+/* Add this CSS to your stylesheet */
+.toast-notification {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: var(--aha);
+  color: #fff;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.toast-notification.show {
+  opacity: 1;
 }

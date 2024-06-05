@@ -25,6 +25,7 @@ export default function AddListModal({ isOpen, onClose, addList }) {
   if (!isOpen) return null;
 
   return (
+    <div className="addlistmodal">
     <div className="modal show" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
       <div className="modal-dialog" role="document">
         <div className="modal-content glass-effect">
@@ -82,6 +83,7 @@ export default function AddListModal({ isOpen, onClose, addList }) {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
