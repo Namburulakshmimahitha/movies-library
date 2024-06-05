@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { AuthContextProvider } from './components/context/AuthContext';
 import Home from './components/pages/Home';
 import Log from './components/pages/Log';
@@ -15,6 +15,15 @@ import PublicListDetails from './components/pages/PublicListDetails';
 function App() {
   const [userLists, setuserLists] = useState([]);
   const [publicLists, setPublicLists] = useState([]);
+  const [toasts, setToasts] = useState([]);
+
+  const addToast = useCallback((message, type) => {
+    setToasts(prevToasts => [...prevToasts, { message, type }]);
+  }, []);
+
+  const removeToast = useCallback((index) => {
+    setToasts(prevToasts => prevToasts.filter((_, i) => i !== index));
+  }, []);
 
   useEffect(() => {
     const fetchuserLists = async () => {
@@ -32,7 +41,7 @@ function App() {
           console.log(user.email);
         } catch (error) {
           console.error('Error fetching user lists:', error);
-          // toast.error('Error fetching user lists');
+          addToast('Error fetching user lists');
         }
       }
     };
@@ -56,7 +65,7 @@ function App() {
         const q = query(collection(db, 'userLists'), where('userId', '==', user.uid), where('name', '==', listName));
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
-          // toast.error('List with this name already exists');
+          addToast('List with this name already exists');
           return;
         }
 
@@ -78,14 +87,14 @@ function App() {
             username: user.displayName
           });
         }
-        // toast.success('List added successfully');
+        addToast('List added successfully');
       } catch (error) {
         console.error('Error adding list:', error);
-        // toast.error('Error adding list');
+        addToast('Error adding list');
       }
     } else {
       console.error('User is not logged in');
-      // toast.error('User is not logged in');
+      addToast('User is not logged in');
     }
   };
 
@@ -99,13 +108,13 @@ function App() {
 
         if (!listDoc.exists()) {
           console.error('List does not exist');
-          // toast.error('List does not exist');
+          addToast('List does not exist');
         } else {
           const moviesArray = listDoc.data().movies;
           const movieExists = moviesArray.some(m => m.imdbID === movie.imdbID);
 
           if (movieExists) {
-            // toast.error('Movie already exists in the list');
+            addToast('Movie already exists in the list');
             return;
           }
 
@@ -126,11 +135,11 @@ function App() {
               movies: arrayUnion(movie),
             });
           }
-          // toast.success('Movie added to list successfully');
+          addToast('Movie added to list successfully');
         }
       } catch (error) {
         // console.error('Error adding movie to list:', error);
-        // toast.error('Error adding movie to list');
+        addToast('Error adding movie to list');
       }
     }
   };
@@ -143,7 +152,7 @@ function App() {
         const listDoc = await getDoc(listRef);
         if (!listDoc.exists()) {
           console.error('List does not exist');
-          // toast.error('List does not exist');
+          addToast('List does not exist');
         } else {
           const moviesArray = listDoc.data().movies;
           if (Array.isArray(moviesArray)) {
@@ -167,23 +176,23 @@ function App() {
                 return list;
               });
               setuserLists(updatedLists);
-              // toast.success('Movie removed from list successfully');
+              addToast('Movie removed from list successfully');
             } else {
               console.error('Movie not found in the list');
-              // toast.error('Movie not found in the list');
+              addToast('Movie not found in the list');
             }
           } else {
             console.error('moviesArray is not an array');
-            // toast.error('Error removing movie from list');
+            addToast('Error removing movie from list');
           }
         }
       } catch (error) {
         console.error('Error removing movie from list:', error);
-        // toast.error('Error removing movie from list');
+        addToast('Error removing movie from list');
       }
     } else {
       console.error('User not authenticated');
-      // toast.error('User not authenticated');
+      addToast('User not authenticated');
     }
   };
 
@@ -202,54 +211,54 @@ function App() {
         // Update local state
         const updatedLists = userLists.filter(list => list.id !== listId);
         setuserLists(updatedLists);
-        // toast.success('List deleted successfully');
+        addToast('List deleted successfully');
       } catch (error) {
         console.error('Error deleting list:', error);
-        // toast.error('Error deleting list');
+        addToast('Error deleting list');
       }
     }
   };
 
   return (
     <AuthContextProvider>
-      {/* <ToastContainer
-        position="bottom-left"
-        autoClose={3000} // Adjust autoClose time as needed
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      /> */}
-        <Routes>
-          <Route path="/" element={<Log />} />
-          <Route path="/main" element={
-            <Protected>
-              <Home
-                userLists={userLists}
-                addMovieToList={addMovieToList}
-                removeMovieFromList={removeMovieFromList}
-                deleteList={deleteList}
-                publicLists={publicLists}
-              />
-            </Protected>
-          } />
-          <Route path="/favorites" element={
-            <Protected>
-              <Favourites
-                userLists={userLists}
-                addList={addList}
-                removeMovieFromList={removeMovieFromList}
-                deleteList={deleteList}
-              />
-            </Protected>
-          } />
-          <Route path="/list/:listId" element={
-            <PublicListDetails userLists={userLists} />
-          } />
-        </Routes>
+      <div className="toast-container">
+        {toasts.map((toast, index) => (
+          <div
+            key={index}
+            className={`toast-notificationx ${toast.type}`}
+            onAnimationEnd={() => removeToast(index)}
+          >
+            {toast.message}
+          </div>
+        ))}
+      </div>
+      <Routes>
+        <Route path="/" element={<Log />} />
+        <Route path="/main" element={
+          <Protected>
+            <Home
+              userLists={userLists}
+              addMovieToList={addMovieToList}
+              removeMovieFromList={removeMovieFromList}
+              deleteList={deleteList}
+              publicLists={publicLists}
+            />
+          </Protected>
+        } />
+        <Route path="/favorites" element={
+          <Protected>
+            <Favourites
+              userLists={userLists}
+              addList={addList}
+              removeMovieFromList={removeMovieFromList}
+              deleteList={deleteList}
+            />
+          </Protected>
+        } />
+        <Route path="/list/:listId" element={
+          <PublicListDetails userLists={userLists} />
+        } />
+      </Routes>
     </AuthContextProvider>
   );
 }

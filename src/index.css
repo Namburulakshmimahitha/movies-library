@@ -1452,3 +1452,33 @@ svg {
 .toast-notification.show {
   opacity: 1;
 }
+
+.toast-container {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 1000;
+}
+
+.toast-notificationx {
+  background-color: var(--aha);
+  color: #fff;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  animation: fadeOut 3s forwards;
+}
+
+.toast-notificationx.success {
+  background-color: #4caf50;
+}
+
+.toast-notificationx.error {
+  background-color: #f44336;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
