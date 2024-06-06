@@ -141,7 +141,7 @@ export default function MoviesList({ movies, addMovieToList, userLists, isUserLi
                     >
                       <option value="" disabled>Select a list</option>
                       {userLists.map((list, idx) => (
-                        <option key={idx} value={list.id}>{list.name}</option>
+                        <option key={idx} value={list.id}>{list.name}&nbsp;({list.isPublic ? 'Public List' : 'Private List'})</option>
                       ))}
                     </select>
                   </div>
