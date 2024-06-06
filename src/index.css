@@ -53,6 +53,7 @@ body {
   justify-content: center;
   align-items: center;
   background-color: var(--trans);
+  min-height: 100vh;
 }
 
 .totusecontpub {
@@ -1108,6 +1109,24 @@ li {
   margin-top: 0.5rem;
 } */
 
+
+@media (max-width: 1200px) {
+  .movie-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on large screens */
+  }
+}
+
+@media (max-width: 900px) {
+  .movie-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .movie-grid {
+    grid-template-columns: 1fr; /* 1 column on small screens */
+  }
+}
 /* Style for the list header */
 .list-header {
   display: flex;

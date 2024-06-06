@@ -228,12 +228,6 @@ export default function UsersMoviesLists({ userLists, removeMovieFromList, addLi
             <p>No {visibilityFilter === 'public' ? 'public' : 'private'} lists available.</p>
           </div>
         )}
-
-
-
-
-
-
         <AddListModal
           isOpen={showModal}
           onClose={closeModal}
