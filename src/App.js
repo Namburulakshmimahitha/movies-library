@@ -9,8 +9,7 @@ import Favourites from './components/pages/Favourites';
 import { auth, db } from './firebase';
 import { collection, addDoc, getDocs, getDoc, setDoc, query, where, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import PublicListDetails from './components/pages/PublicListDetails';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   const [userLists, setuserLists] = useState([]);
