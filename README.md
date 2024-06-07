@@ -1,6 +1,6 @@
 Steps:
 Clone the Repository:
-git clone https://github.com/manojnaraharisetti/movie-library.git
+git clone https://github.com/Namburulakshmimahitha/movies-library.git
 
 
 Navigate to the Project Directory:
